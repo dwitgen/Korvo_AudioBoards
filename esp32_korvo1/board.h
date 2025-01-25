@@ -42,7 +42,7 @@ extern "C" {
  */
 struct audio_board_handle {
     audio_hal_handle_t audio_hal; /*!< audio hardware abstract layer handle */
-    adc_oneshot_unit_handle_t adc_hal; /*!< adc hardware abstract layer handle */
+    audio_hal_handle_t adc_hal;   /*!< adc hardware abstract layer handle */
 };
 
 typedef struct audio_board_handle *audio_board_handle_t;
@@ -66,7 +66,7 @@ audio_hal_handle_t audio_board_codec_init(void);
  *
  * @return The adc hal handle
  */
-adc_oneshot_unit_handle_t audio_board_adc_init(void);
+audio_hal_handle_t audio_board_adc_init(void);
 
 /**
  * @brief Initialize lcd peripheral
@@ -135,4 +135,4 @@ esp_err_t audio_board_deinit(audio_board_handle_t audio_board);
 }
 #endif
 
-#endif // _AUDIO_BOARD_H_
+#endif
