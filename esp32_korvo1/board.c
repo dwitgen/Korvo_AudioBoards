@@ -26,14 +26,12 @@
 #include "board.h"
 #include "audio_mem.h"
 #include "periph_sdcard.h"
-#include "driver/adc.h"
-#include "esp_adc/adc_oneshot.h"
+#include "periph_adc_button.h"
 #include "tca9554.h"
 
 static const char *TAG = "AUDIO_BOARD";
 
 static audio_board_handle_t board_handle = 0;
-static adc_oneshot_unit_handle_t adc_handle;
 
 audio_board_handle_t audio_board_init(void)
 {
@@ -53,20 +51,10 @@ audio_board_handle_t audio_board_init(void)
 audio_hal_handle_t audio_board_adc_init(void)
 {
     ESP_LOGD(TAG, "Initializing the adc");
-
-    // Initialize ADC
-    adc_oneshot_unit_init_cfg_t init_config = {
-        .unit_id = ADC_UNIT_1,
-    };
-    ESP_ERROR_CHECK(adc_oneshot_new_unit(&init_config, &adc_handle));
-
-    adc_oneshot_chan_cfg_t config = {
-        .bitwidth = ADC_BITWIDTH_DEFAULT,
-        .atten = ADC_ATTEN_DB_0,
-    };
-    ESP_ERROR_CHECK(adc_oneshot_config_channel(adc_handle, ADC_CHANNEL_0, &config));
-
-    return adc_handle;
+    audio_hal_codec_config_t audio_codec_cfg = AUDIO_CODEC_ES7210_CONFIG();
+    audio_hal_handle_t adc_hal = audio_hal_init(&audio_codec_cfg, &AUDIO_CODEC_ES7210_DEFAULT_HANDLE);
+    AUDIO_NULL_CHECK(TAG, adc_hal, return NULL);
+    return adc_hal;
 }
 
 audio_hal_handle_t audio_board_codec_init(void)
@@ -80,22 +68,17 @@ audio_hal_handle_t audio_board_codec_init(void)
 
 esp_err_t audio_board_key_init(esp_periph_set_handle_t set)
 {
-    // Replace periph_adc_button with new ADC APIs
-    adc_oneshot_unit_init_cfg_t init_config = {
-        .unit_id = ADC_UNIT_1,
-    };
-    ESP_ERROR_CHECK(adc_oneshot_new_unit(&init_config, &adc_handle));
-
-    adc_oneshot_chan_cfg_t config = {
-        .bitwidth = ADC_BITWIDTH_DEFAULT,
-        .atten = ADC_ATTEN_DB_0,
-    };
-    ESP_ERROR_CHECK(adc_oneshot_config_channel(adc_handle, ADC_CHANNEL_7, &config));
-
-    // Implement button handling logic using new ADC APIs
-    // ...
-
-    return ESP_OK;
+    periph_adc_button_cfg_t adc_btn_cfg = PERIPH_ADC_BUTTON_DEFAULT_CONFIG();
+    adc_arr_t adc_btn_tag = ADC_DEFAULT_ARR();
+    adc_btn_tag.total_steps = 6;
+    adc_btn_tag.adc_ch = ADC1_CHANNEL_7;
+    int btn_array[7] = {190, 600, 1000, 1375, 1775, 2195, 3000};
+    adc_btn_tag.adc_level_step = btn_array;
+    adc_btn_cfg.arr = &adc_btn_tag;
+    adc_btn_cfg.arr_size = 1;
+    esp_periph_handle_t adc_btn_handle = periph_adc_button_init(&adc_btn_cfg);
+    AUDIO_NULL_CHECK(TAG, adc_btn_handle, return ESP_ERR_ADF_MEMORY_LACK);
+    return esp_periph_start(set, adc_btn_handle);
 }
 
 esp_err_t audio_board_sdcard_init(esp_periph_set_handle_t set, periph_sdcard_mode_t mode)
@@ -138,10 +121,6 @@ esp_err_t audio_board_deinit(audio_board_handle_t audio_board)
     esp_err_t ret = ESP_OK;
     ret |= audio_hal_deinit(audio_board->audio_hal);
     ret |= audio_hal_deinit(audio_board->adc_hal);
-    if (adc_handle) {
-        ESP_ERROR_CHECK(adc_oneshot_del_unit(adc_handle));
-        adc_handle = NULL;
-    }
     audio_free(audio_board);
     board_handle = NULL;
     return ret;
