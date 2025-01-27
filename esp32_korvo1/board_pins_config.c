@@ -40,7 +40,7 @@ esp_err_t get_i2c_pins(i2c_port_t port, i2c_config_t *i2c_config)
     if (port == I2C_NUM_0) {
         i2c_config->sda_io_num = GPIO_NUM_19;
         i2c_config->scl_io_num = GPIO_NUM_32;
-        i2c_config->master.clk_speed = 600000;
+        i2c_config->master.clk_speed = 400000;
     } else {
         i2c_config->sda_io_num = -1;
         i2c_config->scl_io_num = -1;
