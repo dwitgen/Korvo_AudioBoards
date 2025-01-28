@@ -30,6 +30,7 @@
 #include "audio_mem.h"
 #include "hal/gpio_types.h"
 #include "soc/soc_caps.h"
+#include "driver/i2s_std.h"
 
 static const char *TAG = "ESP32_S3_KORVO_1";
 
@@ -50,29 +51,32 @@ esp_err_t get_i2c_pins(i2c_port_t port, i2c_config_t *i2c_config)
     return ESP_OK;
 }
 
-esp_err_t get_i2s_pins(i2s_port_t port, i2s_pin_config_t *i2s_config)
-{
-    AUDIO_NULL_CHECK(TAG, i2s_config, return ESP_FAIL);
-    if (port == I2S_NUM_0) { // Codec
-        i2s_config->bck_io_num = GPIO_NUM_40;
-        i2s_config->ws_io_num = GPIO_NUM_41;
-        i2s_config->data_out_num = GPIO_NUM_39;
-        i2s_config->data_in_num = GPIO_NUM_NC;
-        i2s_config->mck_io_num = GPIO_NUM_42;
-    } else if (port == I2S_NUM_1) { // ADC
-        i2s_config->bck_io_num = GPIO_NUM_10;
-        i2s_config->ws_io_num = GPIO_NUM_9;
-        i2s_config->data_out_num = GPIO_NUM_NC;
-        i2s_config->data_in_num = GPIO_NUM_11;
-        i2s_config->mck_io_num = GPIO_NUM_20;
+esp_err_t get_i2s_pins(int port, i2s_std_gpio_config_t *gpio_cfg) {
+    AUDIO_NULL_CHECK(TAG, gpio_cfg, return ESP_FAIL);
+
+    if (port == I2S_NUM_0) {  // Codec
+        gpio_cfg->mclk = GPIO_NUM_0;   // Master clock (MCLK)
+        gpio_cfg->bclk = GPIO_NUM_25;  // Bit clock (BCLK)
+        gpio_cfg->ws = GPIO_NUM_22;    // Word select (WS)
+        gpio_cfg->dout = GPIO_NUM_13; // Data out (DOUT)
+        gpio_cfg->din = GPIO_NUM_NC;  // Data in (DIN not connected)
+    } else if (port == I2S_NUM_1) {  // ADC
+        gpio_cfg->mclk = GPIO_NUM_0;   // Master clock (MCLK)
+        gpio_cfg->bclk = GPIO_NUM_27;  // Bit clock (BCLK)
+        gpio_cfg->ws = GPIO_NUM_26;    // Word select (WS)
+        gpio_cfg->dout = GPIO_NUM_NC;  // Data out not connected
+        gpio_cfg->din = GPIO_NUM_36;   // Data in (DIN)
     } else {
-        memset(i2s_config, -1, sizeof(i2s_pin_config_t));
-        ESP_LOGE(TAG, "i2s port %d is not supported", port);
+        // Clear configuration on invalid port
+        memset(gpio_cfg, -1, sizeof(i2s_std_gpio_config_t));
+        ESP_LOGE(TAG, "I2S port %d is not supported", port);
         return ESP_FAIL;
     }
 
+    ESP_LOGI(TAG, "I2S pins configured for port %d", port);
     return ESP_OK;
 }
+
 
 esp_err_t get_spi_pins(spi_bus_config_t *spi_config, spi_device_interface_config_t *spi_device_interface_config)
 {
