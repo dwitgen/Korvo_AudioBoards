@@ -54,18 +54,31 @@ esp_err_t get_i2c_pins(i2c_port_t port, i2c_config_t *i2c_config)
 esp_err_t get_i2s_pins(int port, i2s_std_gpio_config_t *gpio_cfg) {
     AUDIO_NULL_CHECK(TAG, gpio_cfg, return ESP_FAIL);
 
-    if (port == I2S_NUM_0) {  // Codec
-        gpio_cfg->mclk = GPIO_NUM_0;   // Master clock (MCLK)
-        gpio_cfg->bclk = GPIO_NUM_25;  // Bit clock (BCLK)
-        gpio_cfg->ws = GPIO_NUM_22;    // Word select (WS)
-        gpio_cfg->dout = GPIO_NUM_13; // Data out (DOUT)
-        gpio_cfg->din = GPIO_NUM_NC;  // Data in (DIN not connected)
-    } else if (port == I2S_NUM_1) {  // ADC
-        gpio_cfg->mclk = GPIO_NUM_0;   // Master clock (MCLK)
-        gpio_cfg->bclk = GPIO_NUM_27;  // Bit clock (BCLK)
-        gpio_cfg->ws = GPIO_NUM_26;    // Word select (WS)
-        gpio_cfg->dout = GPIO_NUM_NC;  // Data out not connected
-        gpio_cfg->din = GPIO_NUM_36;   // Data in (DIN)
+    //if (port == I2S_NUM_0) {  // Codec
+    //   gpio_cfg->mclk = GPIO_NUM_0;   // Master clock (MCLK)
+    //    gpio_cfg->bclk = GPIO_NUM_25;  // Bit clock (BCLK)
+    //    gpio_cfg->ws = GPIO_NUM_22;    // Word select (WS)
+    //    gpio_cfg->dout = GPIO_NUM_13; // Data out (DOUT)
+    //    gpio_cfg->din = GPIO_NUM_NC;  // Data in (DIN not connected)
+    //} else if (port == I2S_NUM_1) {  // ADC
+    //    gpio_cfg->mclk = GPIO_NUM_0;   // Master clock (MCLK)
+    //    gpio_cfg->bclk = GPIO_NUM_27;  // Bit clock (BCLK)
+    //    gpio_cfg->ws = GPIO_NUM_26;    // Word select (WS)
+    //    gpio_cfg->dout = GPIO_NUM_NC;  // Data out not connected
+    //    gpio_cfg->din = GPIO_NUM_36;   // Data in (DIN)
+    //} else {
+    if (port == I2S_NUM_0) { // Codec
+        gpio_cfg->mclk = GPIO_NUM_42;   // Master clock (MCLK)
+        gpio_cfg->bclk = GPIO_NUM_40;   // Bit clock (BCLK)
+        gpio_cfg->ws = GPIO_NUM_41;     // Word select (WS)
+        gpio_cfg->dout = GPIO_NUM_39;   // Data out (DOUT)
+        gpio_cfg->din = GPIO_NUM_NC;    // Data in (DIN not connected)
+    } else if (port == I2S_NUM_1) { // ADC
+        gpio_cfg->mclk = GPIO_NUM_20;   // Master clock (MCLK)
+        gpio_cfg->bclk = GPIO_NUM_10;   // Bit clock (BCLK)
+        gpio_cfg->ws = GPIO_NUM_9;      // Word select (WS)
+        gpio_cfg->dout = GPIO_NUM_NC;   // Data out not connected
+        gpio_cfg->din = GPIO_NUM_11;    // Data in (DIN)
     } else {
         // Clear configuration on invalid port
         memset(gpio_cfg, -1, sizeof(i2s_std_gpio_config_t));
@@ -94,6 +107,7 @@ esp_err_t get_spi_pins(spi_bus_config_t *spi_config, spi_device_interface_config
     ESP_LOGW(TAG, "SPI interface is not supported");
     return ESP_OK;
 }
+
 
 esp_err_t i2s_mclk_gpio_select(i2s_port_t i2s_num, gpio_num_t gpio_num)
 {
