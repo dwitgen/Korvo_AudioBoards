@@ -91,17 +91,18 @@ extern audio_hal_func_t AUDIO_CODEC_ES7210_DEFAULT_HANDLE;
 //            .bits = AUDIO_HAL_BIT_LENGTH_32BITS,        \
 //        },                                              \
 //};
-#define AUDIO_CODEC_ES7210_CONFIG(){                    \ 
-        .adc_input  = AUDIO_HAL_ADC_INPUT_ALL,          \
-        .dac_output = AUDIO_HAL_DAC_OUTPUT_ALL,         \
-        .codec_mode = AUDIO_HAL_CODEC_MODE_ENCODE,      \
-        .i2s_iface = {                                  \
+#define AUDIO_CODEC_ES7210_CONFIG() {                    \
+        .adc_input  = AUDIO_HAL_ADC_INPUT_ALL,           \
+        .dac_output = AUDIO_HAL_DAC_OUTPUT_ALL,          \
+        .codec_mode = AUDIO_HAL_CODEC_MODE_ENCODE,       \
+        .i2s_iface = {                                   \
             .mode = AUDIO_HAL_MODE_SLAVE,               \
-            .fmt = AUDIO_HAL_I2S_NORMAL,                \
-            .samples = AUDIO_HAL_48K_SAMPLES,           \  // Change to 48K
-            .bits = AUDIO_HAL_BIT_LENGTH_16BITS,        \  // Change to 16-bit
-        },                                              \
-};
+            .fmt = AUDIO_HAL_I2S_NORMAL,                 \
+            .samples = AUDIO_HAL_16K_SAMPLES,            \
+            .bits = AUDIO_HAL_BIT_LENGTH_16BITS          \
+        }                                               \
+}
+
 
 
 /**
