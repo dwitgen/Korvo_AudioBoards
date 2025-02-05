@@ -59,7 +59,7 @@ esp_err_t get_i2s_pins(int port, i2s_std_gpio_config_t *gpio_cfg) {
     AUDIO_NULL_CHECK(TAG, gpio_cfg, return ESP_FAIL);
 
     if (port == I2S_NUM_0) {  // Codec
-        gpio_cfg->mclk = GPIO_NUM_NC;   // Master clock (MCLK)
+        gpio_cfg->mclk = GPIO_NUM_0;   // Master clock (MCLK)
         gpio_cfg->bclk = GPIO_NUM_25;  // Bit clock (BCLK)
         gpio_cfg->ws = GPIO_NUM_22;    // Word select (WS)
         gpio_cfg->dout = GPIO_NUM_13; // Data out (DOUT)
