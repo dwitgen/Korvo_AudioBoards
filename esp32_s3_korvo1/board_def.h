@@ -97,7 +97,7 @@ extern audio_hal_func_t AUDIO_CODEC_ES7210_DEFAULT_HANDLE;
 /**
  * @brief Define ADC Buttons
  */
- #define INPUT_BUTOP_ID           ADC1_CHANNEL_7
+ #define INPUT_BUTOP_ID           ADC_CHANNEL_7
 
 // Define thresholds for button detection in ADC values
 #define VOL_UP_THRESHOLD_LOW     420
