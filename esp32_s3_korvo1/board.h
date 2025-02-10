@@ -25,6 +25,7 @@
 #ifndef _AUDIO_BOARD_H_
 #define _AUDIO_BOARD_H_
 
+#include <esp_adc/adc_oneshot.h>
 #include "audio_hal.h"
 #include "board_def.h"
 #include "board_pins_config.h"
