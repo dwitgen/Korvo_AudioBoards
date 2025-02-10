@@ -26,7 +26,7 @@
 #include "board.h"
 #include "audio_mem.h"
 #include "periph_sdcard.h"
-//#include "periph_adc_button.h"
+#include "periph_adc_button.h"
 #include "tca9554.h"
 
 static const char *TAG = "AUDIO_BOARD";
@@ -80,20 +80,20 @@ audio_hal_handle_t audio_board_codec_init(void)
 //    return esp_periph_start(set, adc_btn_handle);
 //}
 
-//esp_err_t audio_board_key_init(esp_periph_set_handle_t set)
-//{
-//    periph_adc_button_cfg_t adc_btn_cfg = PERIPH_ADC_BUTTON_DEFAULT_CONFIG();
-//    adc_arr_t adc_btn_tag = ADC_DEFAULT_ARR();
-//    int btn_array[7] = {380, 820, 1100, 1650, 1980, 2410, 3000};
-//    adc_btn_tag.adc_ch = INPUT_BUTOP_ID;
-//    adc_btn_tag.adc_level_step = btn_array;
-//    adc_btn_tag.total_steps = 6;
-//    adc_btn_cfg.arr = &adc_btn_tag;
-//    adc_btn_cfg.arr_size = 1;
-//    esp_periph_handle_t adc_btn_handle = periph_adc_button_init(&adc_btn_cfg);
-//    AUDIO_NULL_CHECK(TAG, adc_btn_handle, return ESP_ERR_ADF_MEMORY_LACK);
-//    return esp_periph_start(set, adc_btn_handle);
-//}
+esp_err_t audio_board_key_init(esp_periph_set_handle_t set)
+{
+    periph_adc_button_cfg_t adc_btn_cfg = PERIPH_ADC_BUTTON_DEFAULT_CONFIG();
+    adc_arr_t adc_btn_tag = ADC_DEFAULT_ARR();
+    int btn_array[7] = {380, 820, 1100, 1650, 1980, 2410, 3000};
+    adc_btn_tag.adc_ch = INPUT_BUTOP_ID;
+    adc_btn_tag.adc_level_step = btn_array;
+    adc_btn_tag.total_steps = 6;
+    adc_btn_cfg.arr = &adc_btn_tag;
+    adc_btn_cfg.arr_size = 1;
+    esp_periph_handle_t adc_btn_handle = periph_adc_button_init(&adc_btn_cfg);
+    AUDIO_NULL_CHECK(TAG, adc_btn_handle, return ESP_ERR_ADF_MEMORY_LACK);
+    return esp_periph_start(set, adc_btn_handle);
+}
 
 esp_err_t audio_board_sdcard_init(esp_periph_set_handle_t set, periph_sdcard_mode_t mode)
 {
