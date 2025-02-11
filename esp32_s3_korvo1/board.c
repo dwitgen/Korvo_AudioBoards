@@ -93,8 +93,10 @@ esp_err_t audio_board_key_init(esp_periph_set_handle_t set)
     adc_btn_cfg.arr_size = 1;
     esp_periph_handle_t adc_btn_handle = periph_adc_button_init(&adc_btn_cfg);
     AUDIO_NULL_CHECK(TAG, adc_btn_handle, return ESP_ERR_ADF_MEMORY_LACK);
+    esp_periph_set_register_callback(set, button_press_handler, NULL);
     return esp_periph_start(set, adc_btn_handle);
 }
+
 
 esp_err_t audio_board_sdcard_init(esp_periph_set_handle_t set, periph_sdcard_mode_t mode)
 {
