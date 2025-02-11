@@ -94,49 +94,7 @@ audio_hal_handle_t audio_board_codec_init(void)
 //    return esp_periph_start(set, adc_btn_handle);
 //}
 
-// Callback function to handle button press events
-void button_press_handler(void *handler_args, esp_event_base_t base, int32_t id, void *event_data)
-{
-    periph_adc_button_event_id_t event = (periph_adc_button_event_id_t) id;
-    periph_adc_button_event_t *button_event = (periph_adc_button_event_t *) event_data;
 
-    switch (event) {
-        case PERIPH_ADC_BUTTON_PRESSED:
-            ESP_LOGI(TAG, "Button pressed, ID: %d", button_event->act_id);
-            break;
-        case PERIPH_ADC_BUTTON_RELEASE:
-            ESP_LOGI(TAG, "Button released, ID: %d", button_event->act_id);
-            break;
-        default:
-            ESP_LOGI(TAG, "Unknown button event");
-            break;
-    }
-
-    // Additional handling based on button ID
-    switch (button_event->act_id) {
-        case BUTTON_VOLUP_ID:
-            ESP_LOGI(TAG, "Volume Up button pressed");
-            break;
-        case BUTTON_VOLDOWN_ID:
-            ESP_LOGI(TAG, "Volume Down button pressed");
-            break;
-        case BUTTON_SET_ID:
-            ESP_LOGI(TAG, "Set button pressed");
-            break;
-        case BUTTON_PLAY_ID:
-            ESP_LOGI(TAG, "Play button pressed");
-            break;
-        case BUTTON_MODE_ID:
-            ESP_LOGI(TAG, "Mode button pressed");
-            break;
-        case BUTTON_REC_ID:
-            ESP_LOGI(TAG, "Record button pressed");
-            break;
-        default:
-            ESP_LOGI(TAG, "Unknown button ID");
-            break;
-    }
-}
 
 esp_err_t audio_board_key_init(esp_periph_set_handle_t set)
 {
