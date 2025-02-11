@@ -29,6 +29,7 @@
 #include "periph_adc_button.h"
 #include <esp_adc/adc_oneshot.h>
 #include "tca9554.h"
+#include "esp_event.h"
 
 // At the top of board.c
 #ifdef __cplusplus
