@@ -33,6 +33,7 @@
 #include "display_service.h"
 #include "periph_sdcard.h"
 #include "periph_lcd.h"
+#include "esp_event.h"
 
 #ifdef __cplusplus
 extern "C" {
