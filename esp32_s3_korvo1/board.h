@@ -132,6 +132,8 @@ audio_board_handle_t audio_board_get_handle(void);
  */
 esp_err_t audio_board_deinit(audio_board_handle_t audio_board);
 
+void button_press_handler(void *handler_args, esp_event_base_t base, int32_t id, void *event_data);
+
 #ifdef __cplusplus
 }
 #endif

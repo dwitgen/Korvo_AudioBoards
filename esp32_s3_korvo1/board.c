@@ -35,7 +35,7 @@
 extern "C" {
 #endif
 
-extern void button_press_handler(void *handler_args, esp_event_base_t base, int32_t id, void *event_data);
+//extern void button_press_handler(void *handler_args, esp_event_base_t base, int32_t id, void *event_data);
 
 #ifdef __cplusplus
 }
@@ -92,6 +92,22 @@ audio_hal_handle_t audio_board_codec_init(void)
 //    AUDIO_NULL_CHECK(TAG, adc_btn_handle, return ESP_ERR_ADF_MEMORY_LACK);
 //    return esp_periph_start(set, adc_btn_handle);
 //}
+
+void button_press_handler(void *handler_args, esp_event_base_t base, int32_t id, void *event_data) {
+    periph_adc_button_event_t *button_event = (periph_adc_button_event_t *) event_data;
+
+    switch (id) {
+        case PERIPH_ADC_BUTTON_PRESSED:
+            ESP_LOGI(TAG, "Button pressed, ID: %d", button_event->act_id);
+            break;
+        case PERIPH_ADC_BUTTON_RELEASE:
+            ESP_LOGI(TAG, "Button released, ID: %d", button_event->act_id);
+            break;
+        default:
+            ESP_LOGW(TAG, "Unknown button event ID: %d", id);
+            break;
+    }
+}
 
 esp_err_t audio_board_key_init(esp_periph_set_handle_t set)
 {
