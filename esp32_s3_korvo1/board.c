@@ -98,6 +98,7 @@ audio_hal_handle_t audio_board_codec_init(void)
 
 esp_err_t audio_board_key_init(esp_periph_set_handle_t set)
 {
+    ESP_LOGE(TAG, "Initializing the key");
     periph_adc_button_cfg_t adc_btn_cfg = PERIPH_ADC_BUTTON_DEFAULT_CONFIG();
     adc_arr_t adc_btn_tag = ADC_DEFAULT_ARR();
     int btn_array[7] = {380, 820, 1100, 1650, 1980, 2410, 3000};
