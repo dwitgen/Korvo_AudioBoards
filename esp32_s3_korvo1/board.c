@@ -30,6 +30,18 @@
 #include <esp_adc/adc_oneshot.h>
 #include "tca9554.h"
 
+// At the top of board.c
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+extern void button_press_handler(void *handler_args, esp_event_base_t base, int32_t id, void *event_data);
+
+#ifdef __cplusplus
+}
+#endif
+
+
 static const char *TAG = "AUDIO_BOARD";
 
 static audio_board_handle_t board_handle = 0;
