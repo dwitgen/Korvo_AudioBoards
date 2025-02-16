@@ -27,7 +27,7 @@
 #include "audio_mem.h"
 #include "periph_sdcard.h"
 #include "periph_adc_button.h"
-#include <esp_adc/adc_oneshot.h>
+//#include <esp_adc/adc_oneshot.h>
 #include "tca9554.h"
 #include "esp_event.h"
 
