@@ -82,13 +82,14 @@ audio_hal_handle_t audio_board_codec_init(void)
 
 esp_err_t audio_board_key_init(esp_periph_set_handle_t set)
 {
-    periph_adc_button_cfg_t adc_btn_cfg = {                              \
-        .task_stack = ADC_BUTTON_STACK_SIZE,   \
-        .task_core  = 1, \
-        .task_prio  = ADC_BUTTON_TASK_PRIORITY,\
-        .ext_stack  = false                    \
-    };            //PERIPH_ADC_BUTTON_DEFAULT_CONFIG();
-    adc_arr_t adc_btn_tag = ADC_DEFAULT_ARR();
+    periph_adc_button_cfg_t adc_btn_cfg = {
+        .task_config {                              
+            .task_stack = ADC_BUTTON_STACK_SIZE,   
+            .task_core  = 1, \
+            .task_prio  = ADC_BUTTON_TASK_PRIORITY,
+            .ext_stack  = false                    
+        }               //PERIPH_ADC_BUTTON_DEFAULT_CONFIG();
+    };
     int btn_array[7] = {190, 600, 1000, 1375, 1775, 2195, 3000};
     adc_btn_tag.adc_ch = INPUT_BUTOP_ID;
     adc_btn_tag.adc_level_step = btn_array;
