@@ -100,7 +100,7 @@ esp_err_t audio_board_key_init(esp_periph_set_handle_t set)
         //.arr_size = 1,
     };
     adc_arr_t adc_btn_tag = ADC_DEFAULT_ARR();
-    int btn_array[7] = {380, 820, 1100, 1650, 1980, 2410, 3000};
+    static int btn_array[7] = {380, 820, 1100, 1650, 1980, 2410, 3000};
     adc_btn_tag.adc_ch = INPUT_BUTOP_ID;
     adc_btn_tag.adc_level_step = btn_array;
     adc_btn_cfg.arr = &adc_btn_tag;
