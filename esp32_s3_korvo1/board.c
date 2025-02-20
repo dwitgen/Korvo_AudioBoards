@@ -108,7 +108,7 @@ esp_err_t audio_board_key_init(esp_periph_set_handle_t set)
     adc_btn_cfg.arr_size = 1;
     esp_periph_handle_t adc_btn_handle = periph_adc_button_init(&adc_btn_cfg);
     AUDIO_NULL_CHECK(TAG, adc_btn_handle, return ESP_ERR_ADF_MEMORY_LACK);
-    periph_adc_button_set_callback(adc_btn_handle, btn_cb, adc_btn_handle);
+    //periph_adc_button_set_callback(adc_btn_handle, btn_cb, adc_btn_handle);
     return esp_periph_start(set, adc_btn_handle);
 }
 
