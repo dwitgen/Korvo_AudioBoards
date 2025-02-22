@@ -86,7 +86,7 @@ esp_err_t audio_board_key_init(esp_periph_set_handle_t set)
         .task_cfg = {
             .task_stack = ADC_BUTTON_STACK_SIZE,
             .task_core  = 1,
-            .task_prio  = ADC_BUTTON_TASK_PRIORITY,
+            .task_prio  = 12, //ADC_BUTTON_TASK_PRIORITY,
             .ext_stack  = false
         },
         // Add your ADC configuration parameters:
